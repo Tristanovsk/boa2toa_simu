@@ -2,5 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/OP3/data/refractiveindex" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/OP3/data/refractiveindex_info" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/plastics/data/refractiveindex_info" vcs="Git" />
   </component>
 </project>

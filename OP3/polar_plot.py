@@ -18,7 +18,7 @@ plt.rcParams.update({'font.family': 'Times New Roman',
 
 from RTxploitation import lutplot
 from Py6Sperso import *
-from plastics import *
+from OP3 import *
 
 lp = lutplot.plot()
 aot = 0.2

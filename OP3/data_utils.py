@@ -8,7 +8,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-from plastics import *
+from OP3 import *
 
 plt.ioff()
 plt.rcParams.update({'font.size': 16})

@@ -18,12 +18,12 @@ plt.rcParams.update({'font.family':'Times New Roman',
                      'ytick.major.size':5})
 
 
-from plastics import *
+from OP3 import *
 
 SixSexe_path = os.path.abspath('6SV1.1/sixsV1.1')
 from Py6Sperso import *
 
-from plastics import data_utils as du
+from OP3 import data_utils as du
 
 plot = False
 
