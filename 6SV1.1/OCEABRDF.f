@@ -15,6 +15,7 @@ C         rm=cosine of Gauss's angles for angles between -PI/2 and PI/2 deg
 !         the effective reflectance Rwc:= rfoam * xfoam
 !         rfoam:= foam reflectance)
 !         xfoam:= foam coverage
+!    !! Change (harmel) 20210407 to set Rw as pcl (Rw = pcl = 0+ water reflectance)
 C         rp=Gauss's angles for angles between 0 and 2*PI
 C OUTPUT: brdfint(j,k)=the total reflectance of the sea water
 C
@@ -62,7 +63,9 @@ C COMPUTE WHITECAPS REFLECTANCE (LAMBERTIAN)
 
 C COMPUTE BACKSCATTERED REFLECTANCE FROM THE SEA WATER (LAMBERTIAN)
 C  water reflectance below the sea surface
-      call MORCASIWAT(wl,C,Rw)
+!  !! (harmel 20210407)
+!     call MORCASIWAT(wl,C,Rw)
+      Rwb = pcl
 C call gauss quadrature
       tds=1.0
       tdv=1.0
@@ -126,7 +129,8 @@ C for explanation on value of a see OCEAALBE.f
 C add change in solid angle from under to above to surface
 C that account for 1/(n12*n12) decrease in sea water directional
 C reflectance
-           Rwb=(1/(n12*n12))*tds*tdv*Rw/(1-a*Rw)
+! !! (harmel 20210407) Rwb =Rw =pcl
+!           Rwb=(1/(n12*n12))*tds*tdv*Rw/(1-a*Rw)
 C TOTAL REFLECTANCE OF SEA WATER
            brdfint(j,k)=Rwc+(1-xfoam)*Rog+(1-Rwc)*Rwb
 	   rfoam=rwc

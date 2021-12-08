@@ -1970,6 +1970,7 @@ c**********************************************************************c
       if(ibrdf.eq.6) then
       !!!! WARNING (harmel 20200829)
       !!!! rfoam as input (set externally as xsal*1000)
+      !! (harmel 20210407), pcl is modified to correspond to the 0+ water reflectance
         read(iread,*) pws,phi_wind,xsal,pcl,rfoam,xfoam
         if (xsal.lt.0.001)xsal=34.3
         paw=phi0-phi_wind

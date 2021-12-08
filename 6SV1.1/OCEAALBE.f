@@ -9,6 +9,8 @@ C         pwl=wavelength of the computation (in micrometer)
 !         the effective reflectance Rwc:= rfoam * xfoam
 !         rfoam:= foam reflectance)
 !         xfoam:= foam coverage
+!    !! Change (harmel) 20210407 to set Rw as pcl (Rw = pcl = 0+ water reflectance)
+
 C OUTPUT: brdfalbe=the spherical albedo of the ocean
 C
       real Ref(39)
@@ -41,7 +43,10 @@ C COMPUTE WATER REFRACTION INDEX
       call indwat(wl,xsal,nr,ni)
 C COMPUTE BACKSCATTERED REFLECTANCE FROM THE SEA WATER (LAMBERTIAN)
 C  water reflectance below the sea surface
-      call morcasiwat(wl,C,Rw)
+!  !! (harmel 20210407) water reflectance above the sea surface
+!      call morcasiwat(wl,C,Rw)
+      Rwb = pcl
+
 C SUNGLINT spherical albedo
       call glitalbe(wspd,nr,ni,azw,rogalbe)
 C  water reflectance above the sea surface, (albedo re=0.485)
@@ -50,7 +55,7 @@ C of spectral radiance from below the ocean surface, in Optical
 C Aspects of Oceanography (N.G. Jerlov and E. Steeman Nielsen,Eds),
 C Academic,London,pp. 317-344
       a=0.485
-      Rwb=(1.-Rogalbe)*(1.-a)*Rw/(1-a*Rw)
+      !Rwb=(1.-Rogalbe)*(1.-a)*Rw/(1-a*Rw)
 C SPHERICAL ALBEDO OF SEA WATER
       brdfalbe=Rwc+(1-xfoam)*Rogalbe+(1-Rwc)*Rwb
       return
