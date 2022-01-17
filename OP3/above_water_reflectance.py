@@ -125,10 +125,10 @@ cmap = mpl.colors.LinearSegmentedColormap.from_list("",
 norm = mpl.colors.Normalize(vmin=min(xdata.Depth), vmax=1)  # max(xdata.Depth))
 sm = mpl.cm.ScalarMappable(norm=norm, cmap=cmap)
 sm.set_array([])
-
+labels=['(a)','(b)','(c)','(d)']
 param = 'Rrs_Mean'
 abs_feature = [931, 1045, 1215, 1417, 1537, 1732, 2046, 2313]
-fig, axs = plt.subplots(nrows=1, ncols=4, figsize=(18, 5), sharey=True, sharex=True)
+fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(13, 10), sharey=True, sharex=True)
 fig.subplots_adjust(bottom=0.15, top=0.92, left=0.07, right=0.95,
                     hspace=0.17, wspace=0.05)
 axs = axs.ravel()
@@ -139,19 +139,23 @@ for i, (name, x__) in enumerate(x_.groupby('Sample_Name')):
     axs[0].fill_between(x__.wavelength, x__[param] - x__['Rrs_SD'], x__[param] + x__['Rrs_SD'], alpha=0.3,
                         color=colors[i])
 axs[0].vlines(abs_feature, 0, 0.8, ls=':', color='grey')
+
 x_ = xdata.sel(Sample_Condition='Wet').isel(Depth=1).squeeze()
 for ispm, (spm, x__) in enumerate(x_.groupby('SPM')):
-    axs[ispm + 1].set_title('Subsurface - SPM = ' + str(spm) + ' mg/L')
+    axs[ispm + 1].set_title(labels[ispm+1]+' subsurface - SPM = ' + str(spm) + ' mg/L')
     for i, (name, x___) in enumerate(x__.groupby('Sample_Name')):
         axs[ispm + 1].plot(x___.wavelength, x___[param], lw=2, color=colors[i], label=name)
         axs[ispm + 1].fill_between(x___.wavelength, x___[param] - x___['Rrs_SD'], x___[param] + x___['Rrs_SD'],
                                    alpha=0.3, color=colors[i])
 axs[-1].legend(fancybox=True, shadow=True)
-axs[0].set_ylabel('Reflectance (-)')
-axs[0].set_title('Wet - Above water')
+axs[0].set_ylabel('$Reflectance\ (-)$')
+axs[2].set_ylabel('$Reflectance\ (-)$')
+axs[0].set_title('(a) Wet - Above water')
+axs[2].set_xlabel('$Wavelength\ (nm)$')
+axs[3].set_xlabel('$Wavelength\ (nm)$')
 
 for i in range(4):
-    axs[i].set_xlabel('Wavelength (nm)')
+    axs[i].minorticks_on()
 
 plt.savefig(opj(idir, 'fig', 'above_water', 'lab_Rrs_full_spectral_range.png'), dpi=300)
 
@@ -318,9 +322,9 @@ if plot:
 
     color_spm = ["blue", "grey", 'orangered']
     ls = ['-', '--']
-    fig, axs = plt.subplots(nrows=1, ncols=4, figsize=(20, 6), sharex=True,sharey=True)
-    fig.subplots_adjust(bottom=0.25, left=0.05, wspace=0.05, right=0.98)
-    # axs = axs.ravel()
+    fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(13, 10), sharex=True,sharey=True)
+    fig.subplots_adjust(bottom=0.16, left=0.05, wspace=0.05, right=0.98)
+    axs = axs.ravel()
     param = 'Zmax'
     for i, (name, x_) in enumerate(
             res_xr.groupby('name')):
@@ -337,13 +341,15 @@ if plot:
                 p = axs[i].plot(x__.wl, z_max, ls=ls[i_eps], lw=2, color=color_spm[ii],
                                 label='$\epsilon=$' + str(eps) + '; SPM=' + str(spm) + ' mg/L',
                                 zorder=0)
-        axs[i].set_title(name)
-        axs[i].set_xlabel('$Wavelength\ (nm)$')
+        axs[i].set_title(labels[i]+' '+name)
 
-    axs[2].legend(loc='upper center', bbox_to_anchor=(0, -0.15),
+
+    axs[2].legend(loc='upper center', bbox_to_anchor=(1, -0.175),
                   fancybox=True, shadow=True, ncol=3, handletextpad=0.1, fontsize=17)
-
+    axs[2].set_xlabel('$Wavelength\ (nm)$')
+    axs[3].set_xlabel('$Wavelength\ (nm)$')
     axs[0].set_ylabel('$z_{max}\ (m)$')
+    axs[2].set_ylabel('$z_{max}\ (m)$')
     plt.savefig(opj(idir, 'fig', 'Zmax_plastics.png'), dpi=300)
 
     # -----------------------------------
